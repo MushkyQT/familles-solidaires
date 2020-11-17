@@ -13,9 +13,13 @@ class LandingController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->redirectToRoute('app_login');
-//        return $this->render('landing/index.html.twig', [
-//            'controller_name' => 'LandingController',
-//        ]);
+        $user = $this->getUser();
+        if ($user !== null) {
+            return $this->render('landing/index.html.twig', [
+                'controller_name' => 'LandingController',
+            ]);
+        } else {
+            return $this->redirectToRoute('app_login');
+        }
     }
 }

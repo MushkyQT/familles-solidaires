@@ -4,13 +4,13 @@
 
 {% block crumbs %}
     <li class="breadcrumb-item"><a href="{{ path('landing_page') }}">Accueil</a></li>
-    <li class="breadcrumb-item active">Mirrors</li>
+    <li class="breadcrumb-item active">Mirroirs</li>
 {% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="text-center">
-            <h1>List of Mirrors controlled by {{ user_first_name }}:</h1>
+            <h1>Liste des mirroirs controlé par {{ app.user.firstName }}:</h1>
             {% for mirror in mirrors %}
                 <p><a href="{{ path('mirror_controls', {'mirror_id': mirror}) }}">{{ mirror }}</a></p>
             {% endfor %}

@@ -17,11 +17,9 @@ class MirrorController extends AbstractController
         $mirrors = [
             '1' => '192.168.1.216'
         ];
-        $user = $this->getUser();
         return $this->render('mirror/list.html.twig', [
             'controller_name' => 'MirrorController',
             'mirrors' => $mirrors,
-            'user_first_name' => $user->getFirstName(),
         ]);
     }
 
@@ -31,11 +29,9 @@ class MirrorController extends AbstractController
     public function index($mirror_id): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'User tried to access a  mirror\'s controls without having ROLE_USER');
-        $user = $this->getUser();
         return $this->render('mirror/index.html.twig', [
             'controller_name' => 'MirrorController',
             'mirror_id' => $mirror_id,
-            'user_first_name' => $user->getFirstName(),
         ]);
     }
 }

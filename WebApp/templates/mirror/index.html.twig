@@ -4,14 +4,15 @@
 
 {% block crumbs %}
     <li class="breadcrumb-item"><a href="{{ path('landing_page') }}">Accueil</a></li>
-    <li class="breadcrumb-item"><a href="{{ path('mirror_list') }}">Mirrors</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('mirror_list') }}">Mirroirs</a></li>
     <li class="breadcrumb-item active">{{ mirror_id }}</li>
 {% endblock %}
 
 {% block body %}
     <div class="container">
-        <div class="d-flex justify-content-center">
-            <h1>Hello {{ user_first_name }}! You are controlling: {{ mirror_id }}</h1>
+        <div class="text-center">
+            <h1>Bonjour {{ app.user.firstName }}! Vous controllez actuellement:</h1>
+            <h1>{{ mirror_id }}</h1>
         </div>
 {#        ALERT FORM #}
         <form class="my-5">
@@ -38,7 +39,7 @@
             </div>
             <div class="form-row align-items-center">
                 <div class="form-group col-7 col-md-4">
-                    <label for="position">Where</label>
+                    <label for="position">Ou?</label>
                     <select name="position" id="position" class="form-control">
                         <option value="TBAR">Top Bar</option>
                         <option value="TLEFT">Top Left</option>
@@ -54,8 +55,8 @@
                     </select>
                 </div>
                 <div class="form-group col-5 col-md-2">
-                    <label for="displayDuration">Display duration (ms):</label>
-                    <input type="number" name="displayDuration" id="displayDuration" class="form-control" placeholder="0 or blank for infinite">
+                    <label for="displayDuration">Temps d'affichage (ms):</label>
+                    <input type="number" name="displayDuration" id="displayDuration" class="form-control" placeholder="0 pour infini">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary" id="messageSend">Envoyer un message</button>

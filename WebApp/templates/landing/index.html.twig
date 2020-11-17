@@ -10,7 +10,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 rounded-bottom fabOrange-light">
-                <h1>Logged in and this is the homepage.</h1>
+                <h1>Connecte en tant que {{ app.user.firstName }}. Ceci est la page d'accueil.</h1>
+                <p><a href="{{ path('mirror_list') }}">Voir mes mirroirs</a></p>
+                <p><a href="{{ path('app_logout') }}">Deconnexion</a></p>
             </div>
         </div>
     </div>
