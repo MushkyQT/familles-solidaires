@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MirrorController!{% endblock %}
+
+{% block crumbs %}
+    <li class="breadcrumb-item"><a href="{{ path('landing_page') }}">Accueil</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('mirror_list') }}">Mirrors</a></li>
+    <li class="breadcrumb-item active">{{ mirror_id }}</li>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <h1>Hello {{ user_first_name }}! You are controlling: {{ mirror_id }}</h1>
+        </div>
+{#        ALERT FORM #}
+        <form class="my-5">
+            <div class="form-row justify-content-center">
+                <div class="form-group col-7 col-md-10">
+                    <label for="alertInput">Alerte:</label>
+                    <input type="text" class="form-control" id="alertInput" name="alertMessage" placeholder="Alerte a envoyer">
+                </div>
+                <div class="form-group col-5 col-md-2">
+                    <label for="alertTimer">Temps d'affichage (ms):</label>
+                    <input type="number" name="alertTimer" id="alertTimer" class="form-control" placeholder="2000">
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary m-auto" id="alertSend">Envoyer au Mirror</button>
+            </div>
+        </form>
+{#        END ALERT FORM #}
+{#        MESSAGE FORM #}
+        <form>
+            <div class="form-group">
+                <label for="messageInput">Message:</label>
+                <input type="text" class="form-control" id="messageInput" name="message" placeholder="Message a envoyer">
+            </div>
+            <div class="form-row align-items-center">
+                <div class="form-group col-7 col-md-4">
+                    <label for="position">Where</label>
+                    <select name="position" id="position" class="form-control">
+                        <option value="TBAR">Top Bar</option>
+                        <option value="TLEFT">Top Left</option>
+                        <option value="TCENTER">Top Center</option>
+                        <option value="TRIGHT">Top Right</option>
+                        <option value="UTHIRD">Upper Third</option>
+                        <option value="MCENTER">Middle Center</option>
+                        <option value="LTHIRD">Lower Third</option>
+                        <option value="BBAR">Bottom Bar</option>
+                        <option value="BLEFT">Bottom Left</option>
+                        <option value="BCENTER">Bottom Center</option>
+                        <option value="BRIGHT">Bottom Right</option>
+                    </select>
+                </div>
+                <div class="form-group col-5 col-md-2">
+                    <label for="displayDuration">Display duration (ms):</label>
+                    <input type="number" name="displayDuration" id="displayDuration" class="form-control" placeholder="0 or blank for infinite">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="messageSend">Envoyer un message</button>
+            <button type="submit" class="btn btn-warning" id="messageDelete">Effacer un message</button>
+        </form>
+{#        END MESSAGE FORM #}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/script/mirror_controls.js"></script>
+{% endblock %}
