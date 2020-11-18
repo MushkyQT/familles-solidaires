@@ -14,3 +14,7 @@ body {
 .fabOrange-light {
     background-color: #f9b233 !important;
 }
+
+.myNav {
+    z-index: 1;
+}

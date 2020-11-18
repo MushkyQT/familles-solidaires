@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block crumbs %}
+    <li class="breadcrumb-item"><a href="{{ path('landing_page') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Inscription</li>
+{% endblock %}
+
+{% block body %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 rounded-bottom fabOrange-light shadow">
+                {{ form_start(registrationForm, {'attr': {'class': 'p-3'}}) }}
+                <h1 class="h3 mb-3 font-weight-normal">Inscrivez-vous</h1>
+                <div class="form-row mb-2">
+                    <div class="col-6">
+                        {{ form_row(registrationForm.firstName, {'label': 'Prenom', 'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(registrationForm.lastName, {'label': 'Surnom', 'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                {{ form_row(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+                <div class="form-row mt-2">
+                    <div class="col-6">
+                        {{ form_row(registrationForm.plainPassword.first) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(registrationForm.plainPassword.second) }}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">S'inscrire!</button>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

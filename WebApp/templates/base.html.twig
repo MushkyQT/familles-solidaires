@@ -13,7 +13,7 @@
     {% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-light fabOrange-light">
+<nav class="navbar navbar-light fabOrange-light myNav">
     <div class="container">
         <ol class="breadcrumb m-0">
             {% block crumbs %}{% endblock %}
@@ -21,6 +21,16 @@
         <a class="navbar-brand navbar-right" href="{{ path('landing_page') }}">Portail fabMirror</a>
     </div>
 </nav>
+
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+{% for flashError in app.flashes('error') %}
+    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+{% endfor %}
+
 {% block body %}{% endblock %}
 {% block javascripts %}
     {# Bootstrap JS and jQuery #}

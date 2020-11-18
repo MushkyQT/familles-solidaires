@@ -4,13 +4,13 @@
 
 {% block crumbs %}
     <li class="breadcrumb-item"><a href="{{ path('landing_page') }}">Accueil</a></li>
-    <li class="breadcrumb-item active">Login</li>
+    <li class="breadcrumb-item active">Connexion</li>
 {% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-12 col-md-8 rounded-bottom fabOrange-light">
+            <div class="col-12 col-md-8 rounded-bottom fabOrange-light shadow">
                 <form method="post" class="p-3">
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -44,9 +44,12 @@
                     </div>
                     #}
 
-                    <button class="btn btn-lg btn-primary" type="submit">
+                    <button class="btn btn-lg btn-primary mt-3" type="submit">
                         Me connecter
                     </button>
+                    <a href="{{ path('app_register') }}" class="btn btn-lg btn-secondary mt-3 float-right">
+                        M'inscrire
+                    </a>
                 </form>
             </div>
         </div>
