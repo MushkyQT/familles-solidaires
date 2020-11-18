@@ -18,3 +18,12 @@ body {
 .myNav {
     z-index: 1;
 }
+
+.emailNotConfirmed {
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 25px;
+}

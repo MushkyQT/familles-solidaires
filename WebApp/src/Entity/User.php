@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -51,6 +53,16 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Mirror::class, mappedBy="managedBy")
+     */
+    private $mirrors;
+
+    public function __construct()
+    {
+        $this->mirrors = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -162,6 +174,33 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Mirror[]
+     */
+    public function getMirrors(): Collection
+    {
+        return $this->mirrors;
+    }
+
+    public function addMirror(Mirror $mirror): self
+    {
+        if (!$this->mirrors->contains($mirror)) {
+            $this->mirrors[] = $mirror;
+            $mirror->addManagedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMirror(Mirror $mirror): self
+    {
+        if ($this->mirrors->removeElement($mirror)) {
+            $mirror->removeManagedBy($this);
+        }
 
         return $this;
     }

@@ -26,6 +26,29 @@ class RegistrationController extends AbstractController
     }
 
     /**
+     * @Route("/register/new-link", name="app_new_verification_link")
+     */
+    public function newLink()
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if (!$user->isVerified()) {
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                (new TemplatedEmail())
+                    ->from(new Address('melki.irfa.sendmail@gmail.com', 'fabMirror Mailer'))
+                    ->to($user->getEmail())
+                    ->subject('Nouveau lien de confirmation')
+                    ->htmlTemplate('registration/confirmation_email_new_link.html.twig')
+            );
+            $this->addFlash('success', 'Nouveau lien de confirmation a ete envoye!');
+            return $this->redirectToRoute('landing_page');
+        } else {
+            $this->addFlash('error', 'Utilisateur deja confirme.');
+            return $this->redirectToRoute('app_login');
+        }
+    }
+
+    /**
      * @Route("/register", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response
@@ -57,7 +80,7 @@ class RegistrationController extends AbstractController
                 (new TemplatedEmail())
                     ->from(new Address('melki.irfa.sendmail@gmail.com', 'fabMirror Mailer'))
                     ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Confirmez votre email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
