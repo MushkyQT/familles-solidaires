@@ -5,21 +5,32 @@
 {% block crumbs %}
     <li class="breadcrumb-item"><a href="{{ path('landing_page') }}">Accueil</a></li>
     <li class="breadcrumb-item"><a href="{{ path('mirror_list') }}">Mirroirs</a></li>
-    <li class="breadcrumb-item active">{{ mirror_id }}</li>
+    {% if mirror.nickname is not null %}
+        <li class="breadcrumb-item active">{{ mirror.nickname }}</li>
+    {% else %}
+        <li class="breadcrumb-item active">{{ mirror.address }}</li>
+    {% endif %}
 {% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="text-center">
             <h1>Bonjour {{ app.user.firstName }}! Vous controllez actuellement:</h1>
-            <h1>{{ mirror_id }}</h1>
+            {% if mirror.nickname is not null %}
+                <h1>{{ mirror.nickname }}</h1>
+                <h5 class="text-muted">{{ mirror.address }}</h5>
+            {% else %}
+                <h1>{{ mirror.address }}</h1>
+            {% endif %}
+
         </div>
-{#        ALERT FORM #}
+        {# ALERT FORM #}
         <form class="my-5">
             <div class="form-row justify-content-center">
                 <div class="form-group col-7 col-md-10">
                     <label for="alertInput">Alerte:</label>
-                    <input type="text" class="form-control" id="alertInput" name="alertMessage" placeholder="Alerte a envoyer">
+                    <input type="text" class="form-control" id="alertInput" name="alertMessage"
+                           placeholder="Alerte a envoyer">
                 </div>
                 <div class="form-group col-5 col-md-2">
                     <label for="alertTimer">Temps d'affichage (ms):</label>
@@ -27,15 +38,18 @@
                 </div>
             </div>
             <div>
-                <button type="submit" class="btn btn-primary m-auto" id="alertSend">Envoyer au Mirror</button>
+                <button type="submit" class="btn btn-primary m-auto" id="alertSend"
+                        data-mirror-address="{{ mirror.address }}">Envoyer au Mirroir
+                </button>
             </div>
         </form>
-{#        END ALERT FORM #}
-{#        MESSAGE FORM #}
+        {# END ALERT FORM #}
+        {# MESSAGE FORM #}
         <form>
             <div class="form-group">
                 <label for="messageInput">Message:</label>
-                <input type="text" class="form-control" id="messageInput" name="message" placeholder="Message a envoyer">
+                <input type="text" class="form-control" id="messageInput" name="message"
+                       placeholder="Message a envoyer">
             </div>
             <div class="form-row align-items-center">
                 <div class="form-group col-7 col-md-4">
@@ -56,13 +70,14 @@
                 </div>
                 <div class="form-group col-5 col-md-2">
                     <label for="displayDuration">Temps d'affichage (ms):</label>
-                    <input type="number" name="displayDuration" id="displayDuration" class="form-control" placeholder="0 pour infini">
+                    <input type="number" name="displayDuration" id="displayDuration" class="form-control"
+                           placeholder="0 pour infini">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary" id="messageSend">Envoyer un message</button>
             <button type="submit" class="btn btn-warning" id="messageDelete">Effacer un message</button>
         </form>
-{#        END MESSAGE FORM #}
+        {# END MESSAGE FORM #}
     </div>
 {% endblock %}
 {% block javascripts %}

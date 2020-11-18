@@ -30,7 +30,7 @@
 {% for message in app.flashes('success') %}
     <div class="alert alert-success m-0 text-center">
         {{ message }}
-        <button type="button" class="close" aria-label="Close">
+        <button type="button" class="closeMe">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -38,7 +38,7 @@
 {% for flashError in app.flashes('error') %}
     <div class="alert alert-danger text-center m-0" role="alert">
         {{ flashError }}
-        <button type="button" class="close" aria-label="Close">
+        <button type="button" class="closeMe">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -48,7 +48,7 @@
     <div class="alert alert-warning text-center m-0 emailNotConfirmed">
         SVP confirmez votre email des que possible.
         <a href="{{ path('app_new_verification_link') }}">Envoyer un nouveau lien de confirmation</a>
-        <button type="button" class="close" aria-label="Close">
+        <button type="button" class="closeMe">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>

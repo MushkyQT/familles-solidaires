@@ -11,9 +11,41 @@
     <div class="container">
         <div class="text-center">
             <h1>Liste des mirroirs controlé par {{ app.user.firstName }}:</h1>
-            {% for mirror in mirrors %}
-                <p><a href="{{ path('mirror_controls', {'mirror_id': mirror}) }}">{{ mirror }}</a></p>
+            {% for mirror in app.user.mirrors %}
+                {% if mirror.nickname is defined and mirror.nickname is not null %}
+                    <p><a href="{{ path('mirror_controls', {'mirror_id': mirror.id}) }}">{{ mirror.nickname }}</a></p>
+                {% else %}
+                    <p><a href="{{ path('mirror_controls', {'mirror_id': mirror.id}) }}">{{ mirror.address }}</a></p>
+                {% endif %}
             {% endfor %}
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addMirrorModal">
+                Associer un Mirroir
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="addMirrorModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Associer un mirroir a {{ app.user.firstName }}</h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {{ form_start(addMirrorForm, {'attr': {'class': 'addMirrorForm'}}) }}
+                            {{ form_row(addMirrorForm.address, {'label': 'Addresse', 'attr': {'class': 'form-control'}}) }}
+                            {{ form_row(addMirrorForm.nickname, {'label': 'Nom rappel', 'attr': {'class': 'form-control'}}) }}
+                            {{ form_end(addMirrorForm) }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                            <button type="submit" class="btn btn-primary addMirrorSubmit">Sauvegarder</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -1,3 +1,5 @@
+let mirrorAddress = $("#alertSend").data('mirror-address');
+
 $("#alertSend").on("click", function (e) {
     e.preventDefault();
     let alertTimer = 2000;
@@ -7,7 +9,9 @@ $("#alertSend").on("click", function (e) {
     }
     alertTimer = Number(alertTimer);
     $.ajax({
-        url: "http://192.168.1.216:8080/api/module/alert/showalert?message=" +
+        url: "http://" +
+            mirrorAddress +
+            ":8080/api/module/alert/showalert?message=" +
             alertToSend +
             '&timer=' +
             alertTimer +
@@ -34,7 +38,9 @@ $("#messageSend").on("click", function (e) {
     $("#messageInput").val("");
     $.ajax({
         url:
-            "http://192.168.1.216:8080/api/notification/SHOW_" +
+            "http://" +
+            mirrorAddress +
+            ":8080/api/notification/SHOW_" +
             $("#position").val() +
             "/" +
             messageToSend +
@@ -53,7 +59,9 @@ $("#messageSend").on("click", function (e) {
 $("#messageDelete").on("click", function (e) {
     e.preventDefault();
     $.ajax({
-        url: "http://192.168.1.216:8080/api/notification/SHOW_" + $("#position").val() + "/ ?apiKey=testkey",
+        url: "http://" +
+            mirrorAddress +
+            ":8080/api/notification/SHOW_" + $("#position").val() + "/ ?apiKey=testkey",
         type: "GET",
         error: function () {
             $("#logEle").html("Error sending message, try again.");
