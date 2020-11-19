@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Mirror;
-use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,8 +13,7 @@ class AddMirrorType extends AbstractType
     {
         $builder
             ->add('address')
-            ->add('nickname')
-        ;
+            ->add('nickname');
     }
 
     public function configureOptions(OptionsResolver $resolver)

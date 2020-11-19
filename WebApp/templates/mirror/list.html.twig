@@ -34,14 +34,16 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            {{ form_start(addMirrorForm, {'attr': {'class': 'addMirrorForm'}}) }}
-                            {{ form_row(addMirrorForm.address, {'label': 'Addresse', 'attr': {'class': 'form-control'}}) }}
-                            {{ form_row(addMirrorForm.nickname, {'label': 'Nom rappel', 'attr': {'class': 'form-control'}}) }}
+                            {{ form_start(addMirrorForm, {'attr': {'class': 'addMirrorForm', 'id': 'addMirrorForm'}}) }}
+                            {{ form_row(addMirrorForm.address, {'label': 'Addresse', 'attr': {'class': 'form-control mb-2', 'placeholder': 'Addresse IP de votre Mirroir'}}) }}
+                            {{ form_row(addMirrorForm.nickname, {'label': 'Nom rappel', 'attr': {'class': 'form-control', 'placeholder': 'Facultatif'}}) }}
                             {{ form_end(addMirrorForm) }}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                            <button type="submit" class="btn btn-primary addMirrorSubmit">Sauvegarder</button>
+                            <button type="submit" form="addMirrorForm" class="btn btn-primary addMirrorSubmit">
+                                Sauvegarder
+                            </button>
                         </div>
                     </div>
                 </div>
