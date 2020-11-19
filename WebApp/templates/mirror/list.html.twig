@@ -13,17 +13,51 @@
             <h1>Liste des mirroirs controlé par {{ app.user.firstName }}:</h1>
             {% for mirror in app.user.mirrors %}
                 {% if mirror.nickname is defined and mirror.nickname is not null %}
-                    <p><a href="{{ path('mirror_controls', {'mirror_id': mirror.id}) }}">{{ mirror.nickname }}</a></p>
+                    {% set mirror_alias = mirror.nickname %}
                 {% else %}
-                    <p><a href="{{ path('mirror_controls', {'mirror_id': mirror.id}) }}">{{ mirror.address }}</a></p>
+                    {% set mirror_alias = mirror.address %}
                 {% endif %}
+                <div class="d-flex justify-content-center align-items-center">
+                    <p>
+                        <a href="{{ path('mirror_controls', {'mirror_id': mirror.id}) }}">
+                            {{ mirror_alias }}
+                        </a>
+                    </p>
+                    <button type="button" class="close deleteMirror" data-mirror-target-alias="{{ mirror_alias }}"
+                            data-mirror-target-addr="{{ mirror.address }}"
+                            data-toggle="modal" data-target="#deleteMirrorModal">
+                        <span>×</span>
+                    </button>
+                </div>
             {% endfor %}
-            <!-- Button trigger modal -->
+            {# Remove mirror modal #}
+            <div class="modal fade" id="deleteMirrorModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Supprimer?</h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="deleteMirrorModal__body" data-owner="{{ app.user.id }}"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+                            <button type="button" class="btn btn-warning deleteMirrorModal__confirmDelete">Oui</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Button to trigger add mirror modal -->
             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addMirrorModal">
                 Associer un Mirroir
             </button>
 
-            <!-- Modal -->
+            <!-- Add mirror modal -->
             <div class="modal fade" id="addMirrorModal" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -50,4 +84,9 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/script/mirror_list_controls.js"></script>
 {% endblock %}

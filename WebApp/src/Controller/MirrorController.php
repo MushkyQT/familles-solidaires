@@ -6,6 +6,7 @@ use App\Entity\Mirror;
 use App\Entity\User;
 use App\Form\AddMirrorType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,13 +24,13 @@ class MirrorController extends AbstractController
         $form = $this->createForm(AddMirrorType::class, $newMirror);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
-            $newMirror->addManagedBy($user);
-            $newMirror = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $newMirror = $form->getData();
+            $newMirror->addManagedBy($user);
             $entityManager->persist($newMirror);
-            $this->addFlash('success', 'Nouvea mirroir ajoute!');
             $entityManager->flush();
+            $this->addFlash('success', 'Nouvea mirroir ajoute!');
             return $this->redirectToRoute('mirror_list');
         }
 
@@ -77,6 +78,46 @@ class MirrorController extends AbstractController
         } else {
             $this->addFlash('error', 'Ce mirroir ne vous appartient pas!');
             return $this->redirectToRoute('mirror_list');
+        }
+    }
+
+    /**
+     * @Route("/ajax/remove_mirror", name="ajax_mirror_remove", condition="request.isXmlHttpRequest()")
+     */
+    public function removeMirror(Request $request): Response
+    {
+        $mirrorToRemove = $request->request->get('mirror');
+        $owner = $request->request->get('owner');
+        $user = $this->getUser();
+
+        if ($user->getId() == $owner) {
+            $em = $this->getDoctrine()->getManager();
+            $mirrors = $this->getDoctrine()
+                ->getRepository(Mirror::class)
+                ->findBy(
+                    [
+                        'address' => $mirrorToRemove,
+                    ]
+                );
+
+            foreach ($mirrors as $mirror) {
+                $managers = $mirror->getManagedBy();
+                foreach ($managers as $manager) {
+                    if ($manager->getId() == $owner) {
+                        $em->remove($mirror);
+                        $em->flush();
+                        $this->addFlash('success', 'Mirroir ' . $mirror->getAddress() . ' a ete supprime');
+                        return new Response(null, 204);
+                    }
+                }
+            }
+
+            $this->addFlash('error', "Could not find a manager with this id for this mirror.");
+            return new JsonResponse(null, 401);
+
+        } else {
+            $this->addFlash('error', "Could not delete mirror as current user and mirror's owner do not match");
+            return new JsonResponse(null, 400);
         }
     }
 }
